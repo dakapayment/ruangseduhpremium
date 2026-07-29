@@ -191,6 +191,15 @@
     ];
 
     function App() {
+      // -------------------------------------------------------------
+      // KONFIGURASI BOT TELEGRAM & GOOGLE SHEETS (HARDCODED)
+      // Silakan ganti nilainya sesuai dengan milik Anda di bawah ini
+      // -------------------------------------------------------------
+      const TELEGRAM_TOKEN = '6092671058:AAFnTJ6jWq-dtuShCaGmfTR5JCT-bS9eJBQ';
+      const TELEGRAM_CHAT_ID = '934382864';
+      const APPS_SCRIPT_URL = 'ISI_URL_WEB_APP_GOOGLE_SHEETS_DI_SINI_JIKA_ADA';
+      // -------------------------------------------------------------
+
       const [activeRole, setActiveRole] = useState('customer');
       const [currentTab, setCurrentTab] = useState('home');
       const [adminTab, setAdminTab] = useState('dashboard');
@@ -198,10 +207,6 @@
 
       const [logoClicks, setLogoClicks] = useState(0);
       const clickTimerRef = useRef(null);
-
-      const [telegramToken, setTelegramToken] = useState('');
-      const [telegramChatId, setTelegramChatId] = useState('');
-      const [appsScriptUrl, setAppsScriptUrl] = useState('');
 
       const [dbStatusFilter, setDbStatusFilter] = useState('Semua');
       const [dbDateFilter, setDbDateFilter] = useState('Semua');
@@ -421,7 +426,7 @@
       }, [subtotalCart, discountAmount]);
 
       const sendTelegramNotification = async (order) => {
-        if (!telegramToken || !telegramChatId) return;
+        if (!TELEGRAM_TOKEN || !TELEGRAM_CHAT_ID) return;
 
         const itemsText = order.items.map(item => (
           `• *${item.qty}x ${item.name}*\n  _Gula: ${item.sugarLevel}_${item.notes ? `\n  _Catatan: ${item.notes}_` : ''}`
@@ -441,11 +446,11 @@
           `📌 *Status:* ${order.status}`;
 
         try {
-          await fetch(`https://api.telegram.org/bot${telegramToken.trim()}/sendMessage`, {
+          await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN.trim()}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              chat_id: telegramChatId.trim(),
+              chat_id: TELEGRAM_CHAT_ID.trim(),
               text: message,
               parse_mode: 'Markdown'
             })
@@ -456,7 +461,7 @@
       };
 
       const sendToGoogleSheets = async (order) => {
-        if (!appsScriptUrl.trim()) return;
+        if (!APPS_SCRIPT_URL.trim()) return;
 
         const payload = {
           orderNo: order.orderNo,
@@ -472,7 +477,7 @@
         };
 
         try {
-          await fetch(appsScriptUrl.trim(), {
+          await fetch(APPS_SCRIPT_URL.trim(), {
             method: 'POST',
             mode: 'no-cors',
             headers: { 'Content-Type': 'application/json' },
@@ -1322,8 +1327,7 @@
                       { id: 'members', label: 'Manajemen Member' },
                       { id: 'menu', label: 'Menu Minuman' },
                       { id: 'promos', label: 'Manajemen Promo' },
-                      { id: 'rewards', label: 'Manajemen Reward' },
-                      { id: 'telegram', label: 'Pengaturan Bot' }
+                      { id: 'rewards', label: 'Manajemen Reward' }
                     ].map(t => (
                       <button
                         key={t.id}
@@ -1641,45 +1645,6 @@
                         </div>
                       ))}
                     </div>
-                  </div>
-                )}
-
-                {adminTab === 'telegram' && (
-                  <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 space-y-4 max-w-xl mx-auto shadow-sm">
-                    <h3 className="font-bold text-base flex items-center gap-2"><Send className="w-5 h-5 text-blue-500" /> Integrasi Bot Telegram & Google Sheets</h3>
-                    <div>
-                      <label className="text-xs font-bold block mb-1">Telegram Bot Token (@BotFather)</label>
-                      <input
-                        type="text"
-                        value={telegramToken}
-                        onChange={(e) => setTelegramToken(e.target.value)}
-                        placeholder="Contoh: 123456789:ABCdefGhIJK..."
-                        className="w-full p-3 rounded-xl border dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-mono outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-xs font-bold block mb-1">Telegram Chat ID / Group ID</label>
-                      <input
-                        type="text"
-                        value={telegramChatId}
-                        onChange={(e) => setTelegramChatId(e.target.value)}
-                        placeholder="Contoh: 987654321..."
-                        className="w-full p-3 rounded-xl border dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-mono outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-xs font-bold block mb-1">Google Apps Script Web App URL</label>
-                      <input
-                        type="text"
-                        value={appsScriptUrl}
-                        onChange={(e) => setAppsScriptUrl(e.target.value)}
-                        placeholder="https://script.google.com/macros/s/.../exec"
-                        className="w-full p-3 rounded-xl border dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-mono outline-none"
-                      />
-                    </div>
-                    <button onClick={() => showToast('Pengaturan integrasi berhasil disimpan!')} className="w-full bg-[#0B8F5A] text-white py-3 rounded-xl font-bold text-xs shadow">
-                      Simpan Pengaturan
-                    </button>
                   </div>
                 )}
               </div>
