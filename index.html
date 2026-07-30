@@ -141,7 +141,7 @@
 
     // ATUR KATALOG POIN
     const INITIAL_REWARDS = [
-      { id: 'r1', name: 'Voucher Diskon Rp 15.000', points: 15000, type: 'Voucher Diskon', desc: 'Potongan harga Rp 15.000 saat checkout', discountAmount: 15000 },
+        { id: 'r1', name: 'Voucher Diskon Rp 15.000', points: 15000, type: 'Voucher Diskon', desc: 'Potongan harga Rp 15.000 saat checkout', discountAmount: 15000 },
       { id: 'r3', name: 'Gantungan Kunci Tumbler', points: 50000, type: 'Merchandise', desc: 'Edisi terbatas Ruang Seduh', discountAmount: 0 },
       { id: 'r4', name: 'Cashback Rp 50.000 Diskon', points: 50000, type: 'Voucher Diskon', desc: 'Potongan langsung Rp 50.000', discountAmount: 50000 },
   
@@ -186,13 +186,18 @@
         return saved ? JSON.parse(saved) : INITIAL_MEMBERS;
       });
 
+      // BACA PESANAN DARI LOCALSTORAGE AGAR TIDAK HILANG SAAT REFRESH
+      const [orders, setOrders] = useState(() => {
+        const saved = localStorage.getItem('rs_orders_list');
+        return saved ? JSON.parse(saved) : [];
+      });
+
       const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
       const [pendingCheckout, setPendingCheckout] = useState(false);
 
       const [menuItems, setMenuItems] = useState(INITIAL_MENU);
       const [rewardsList] = useState(INITIAL_REWARDS);
       const [cart, setCart] = useState([]);
-      const [orders, setOrders] = useState([]);
       const [selectedCategory, setSelectedCategory] = useState('Semua');
 
       const [selectedProduct, setSelectedProduct] = useState(null);
@@ -229,6 +234,11 @@
       useEffect(() => {
         localStorage.setItem('rs_members_list', JSON.stringify(membersList));
       }, [membersList]);
+
+      // SIMPAN OTOMATIS DATA PESANAN KE LOCALSTORAGE
+      useEffect(() => {
+        localStorage.setItem('rs_orders_list', JSON.stringify(orders));
+      }, [orders]);
 
       const handleLogoClick = () => {
         if (activeRole === 'admin') return;
@@ -972,6 +982,7 @@
                   </div>
                 )}
 
+                {/* HALAMAN RIWAYAT PESANAN */}
                 {currentTab === 'orders' && (
                   <div className="space-y-4">
                     <h2 className="text-xl font-bold flex items-center gap-2">
