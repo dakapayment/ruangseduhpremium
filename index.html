@@ -141,7 +141,7 @@
 
     // ATUR KATALOG POIN
     const INITIAL_REWARDS = [
-        { id: 'r1', name: 'Voucher Diskon Rp 15.000', points: 15000, type: 'Voucher Diskon', desc: 'Potongan harga Rp 15.000 saat checkout', discountAmount: 15000 },
+      { id: 'r1', name: 'Voucher Diskon Rp 15.000', points: 15000, type: 'Voucher Diskon', desc: 'Potongan harga Rp 15.000 saat checkout', discountAmount: 15000 },
       { id: 'r3', name: 'Gantungan Kunci Tumbler', points: 50000, type: 'Merchandise', desc: 'Edisi terbatas Ruang Seduh', discountAmount: 0 },
       { id: 'r4', name: 'Cashback Rp 50.000 Diskon', points: 50000, type: 'Voucher Diskon', desc: 'Potongan langsung Rp 50.000', discountAmount: 50000 },
   
@@ -200,9 +200,11 @@
       const [cart, setCart] = useState([]);
       const [selectedCategory, setSelectedCategory] = useState('Semua');
 
+      // MODAL DETAIL PRODUK + PILIHAN PORSI
       const [selectedProduct, setSelectedProduct] = useState(null);
       const [sugarLevel, setSugarLevel] = useState('Normal Sugar');
       const [orderNotes, setOrderNotes] = useState('');
+      const [itemQty, setItemQty] = useState(1); // Jumlah porsi saat memilih
       
       const [isCartOpen, setIsCartOpen] = useState(false);
       const [checkoutStep, setCheckoutStep] = useState('cart'); 
@@ -322,6 +324,7 @@
         setSelectedProduct(product);
         setSugarLevel('Normal Sugar');
         setOrderNotes('');
+        setItemQty(1); // Default 1 porsi saat membuka detail
       };
 
       const handleAddToCart = () => {
@@ -334,7 +337,7 @@
           image: selectedProduct.image,
           sugarLevel: sugarLevel,
           notes: orderNotes,
-          qty: 1
+          qty: itemQty
         };
 
         setCart((prev) => {
@@ -343,14 +346,14 @@
           );
           if (existingIdx > -1) {
             const updated = [...prev];
-            updated[existingIdx].qty += 1;
+            updated[existingIdx].qty += itemQty;
             return updated;
           }
           return [...prev, cartItem];
         });
 
         setSelectedProduct(null);
-        showToast(`"${selectedProduct.name}" ditambahkan ke keranjang!`);
+        showToast(`${itemQty}x "${selectedProduct.name}" ditambahkan ke keranjang!`);
       };
 
       const updateCartQty = (cartItemId, delta) => {
@@ -1604,7 +1607,7 @@
             </div>
           )}
 
-          {/* MODAL DETAIL MINUMAN & OPSI TINGKAT GULA */}
+          {/* MODAL DETAIL MINUMAN, OPSI GULA, CATATAN, DAN PILIHAN PORSI */}
           {selectedProduct && (
             <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full overflow-hidden shadow-2xl">
@@ -1615,34 +1618,61 @@
                   </button>
                 </div>
                 <div className="p-6 space-y-4">
-                  <h3 className="text-xl font-bold">{selectedProduct.name}</h3>
-                  <p className="text-xs text-slate-500">{selectedProduct.desc}</p>
                   <div>
-                    <label className="text-xs font-bold uppercase block mb-2">Tingkat Gula (Sugar Level)</label>
+                    <h3 className="text-xl font-bold">{selectedProduct.name}</h3>
+                    <p className="text-xs text-slate-500 mt-1">{selectedProduct.desc}</p>
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-bold uppercase block mb-2 text-slate-500">Tingkat Gula (Sugar Level)</label>
                     <div className="grid grid-cols-3 gap-2">
                       {['Normal Sugar', 'Low Sugar', 'Extra Sugar'].map(level => (
                         <button
                           key={level}
                           onClick={() => setSugarLevel(level)}
-                          className={`py-2 rounded-xl text-xs font-bold border ${sugarLevel === level ? 'bg-[#0B8F5A] text-white' : 'bg-slate-50 dark:bg-slate-800'}`}
+                          className={`py-2 rounded-xl text-xs font-bold border transition ${sugarLevel === level ? 'bg-[#0B8F5A] text-white border-[#0B8F5A]' : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700'}`}
                         >
                           {level}
                         </button>
                       ))}
                     </div>
                   </div>
+
                   <div>
-                    <label className="text-xs font-bold uppercase block mb-1">Catatan Pesanan</label>
+                    <label className="text-xs font-bold uppercase block mb-1 text-slate-500">Catatan Pesanan</label>
                     <textarea
                       value={orderNotes}
                       onChange={(e) => setOrderNotes(e.target.value)}
                       placeholder="Contoh: Es batu sedikit saja..."
-                      className="w-full bg-slate-50 dark:bg-slate-800 border p-2.5 rounded-xl text-xs outline-none"
+                      className="w-full bg-slate-50 dark:bg-slate-800 border dark:border-slate-700 p-2.5 rounded-xl text-xs outline-none focus:ring-2 focus:ring-[#0B8F5A]"
                       rows={2}
                     />
                   </div>
-                  <button onClick={handleAddToCart} className="w-full bg-[#0B8F5A] text-white py-3.5 rounded-xl font-bold text-xs shadow">
-                    Tambah ke Keranjang • Rp {selectedProduct.price.toLocaleString('id-ID')}
+
+                  {/* PILIHAN JUMLAH PORSI (+ / -) */}
+                  <div className="flex items-center justify-between border-t border-b border-slate-100 dark:border-slate-800 py-3">
+                    <span className="text-xs font-bold uppercase text-slate-500">Jumlah Porsi</span>
+                    <div className="flex items-center gap-3 bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl border dark:border-slate-700">
+                      <button 
+                        onClick={() => setItemQty(prev => Math.max(1, prev - 1))}
+                        className="w-8 h-8 rounded-xl bg-white dark:bg-slate-700 flex items-center justify-center font-bold text-slate-700 dark:text-slate-200 shadow-sm active:scale-95 transition"
+                      >
+                        <Minus className="w-4 h-4" />
+                      </button>
+                      <span className="font-extrabold text-sm w-6 text-center">{itemQty}</span>
+                      <button 
+                        onClick={() => setItemQty(prev => prev + 1)}
+                        className="w-8 h-8 rounded-xl bg-[#0B8F5A] text-white flex items-center justify-center font-bold shadow-sm active:scale-95 transition"
+                      >
+                        <Plus className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* TOMBOL KONFIRMASI DENGAN TOTAL HARGA */}
+                  <button onClick={handleAddToCart} className="w-full bg-[#0B8F5A] hover:bg-emerald-700 text-white py-3.5 rounded-xl font-bold text-xs shadow-lg transition flex items-center justify-between px-5">
+                    <span>Tambah ke Keranjang ({itemQty} Porsi)</span>
+                    <span className="font-black text-amber-300">Rp {(selectedProduct.price * itemQty).toLocaleString('id-ID')}</span>
                   </button>
                 </div>
               </div>
