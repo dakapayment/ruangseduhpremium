@@ -31,34 +31,12 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
-    @keyframes pulse-slow {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.08); opacity: 0.85; }
-    }
-    .animate-pulse-slow {
-      animation: pulse-slow 1.8s infinite ease-in-out;
-    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased">
   
-  <!-- ROOT CONTAINER DENGAN INITIAL LOADING SCREEN -->
-  <div id="root">
-    <div class="fixed inset-0 bg-slate-900 flex flex-col items-center justify-center z-50 text-white p-6">
-      <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-[#0B8F5A] to-emerald-400 flex items-center justify-center text-white shadow-2xl shadow-emerald-600/40 animate-pulse-slow mb-5">
-        <svg class="w-11 h-11 text-amber-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-      </div>
-      <h1 class="font-black text-2xl tracking-wider text-[#0B8F5A] flex items-center gap-2">
-        RUANG SEDUH <span class="text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded font-extrabold uppercase">Premium</span>
-      </h1>
-      <p class="text-xs text-slate-400 font-medium mt-1 tracking-wide">Coffee & Artisanal Brew</p>
-      
-      <div class="mt-8 flex items-center gap-2 text-slate-400 text-xs font-semibold">
-        <div class="w-2 h-2 rounded-full bg-[#0B8F5A] animate-ping"></div>
-        <span>Memuat racikan kopi terbaik...</span>
-      </div>
-    </div>
-  </div>
+  <!-- ROOT CONTAINER TANPA INITIAL LOADING SCREEN -->
+  <div id="root"></div>
 
   <script type="text/babel">
     const { useState, useEffect, useMemo, useRef } = React;
@@ -130,9 +108,6 @@
     const Ticket = ({ className = "w-5 h-5" }) => (
       <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 11v2"/><path d="M13 17v2"/></svg>
     );
-    const Send = ({ className = "w-5 h-5" }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    );
     const LogOut = ({ className = "w-5 h-5" }) => (
       <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
     );
@@ -152,13 +127,6 @@
       <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2v0a2 2 0 0 1-2-2V7"/><path d="M18 7v3a2 2 0 0 1-2 2v0a2 2 0 0 1-2-2V7"/><path d="M14 7v3a2 2 0 0 1-2 2v0a2 2 0 0 1-2-2V7"/><path d="M10 7v3a2 2 0 0 1-2 2v0a2 2 0 0 1-2-2V7"/><path d="M6 7v3a2 2 0 0 1-2 2v0a2 2 0 0 1-2-2V7"/></svg>
     );
 
-    const INITIAL_PROMOS = [
-      { id: 'p1', title: 'xxxxxxxxx', code: 'GOLD20', desc: 'Nikmati diskon kopi khusus member Gold setiap Senin', type: 'percent', discountPercent: 20, discountAmount: 0, image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=500&q=80' },
-      { id: 'p2', title: 'Buy 1 Get 1 Matcha Latte', code: 'MATCHATIME', desc: 'Promo spesial jam 14.00 - 17.00 WIB', type: 'fixed', discountPercent: 0, discountAmount: 15000, image: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=500&q=80' },
-      { id: 'p3', title: 'Diskon Akhir Pekan Rp 10.000', code: 'WEEKEND10K', desc: 'Dapatkan potongan langsung Rp 10.000 setiap transaksi', type: 'fixed', discountPercent: 0, discountAmount: 10000, image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500&q=80' }
- 
-     ]; 
-
     const INITIAL_MENU = [
       { id: 'm1', name: 'Mocha Intenso', category: 'Coffee', price: 18000, desc: 'Perpaduan antara coklat premium dengan kopi robusta pilihan', image: 'https://images.bukaolshop.com/hosting/38154/08b5850b46db416355.png' },
       { id: 'm2', name: 'Kopi Gula Aren', category: 'Coffee', price: 15000, desc: 'Paduan espresso kaya rasa, susu creamy, dan gula aren organik spesial.', image: 'https://images.bukaolshop.com/hosting/38154/7962862d9d07489063.png' },
@@ -168,22 +136,22 @@
       { id: 'm5', name: 'Belgian Dark Chocolate', category: 'Non Coffee', price: 40000, desc: 'Cokelat hitam belgia kental hangat atau dingin dengan hint sea salt.', image: 'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=500&q=80' },
       { id: 'm6', name: 'Sparkling Yuzu Blossom', category: 'Fresh Drink', price: 36000, desc: 'Perasan jeruk Yuzu asli, air soda, dan ekstrak bunga telang segar.', image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&q=80' },
       { id: 'm7', name: 'Berry Hibiscus Cooler', category: 'Fresh Drink', price: 34000, desc: 'Teh hibiscus diseduh dingin bersama potongan stroberi segar dan mint.', image: 'https://images.unsplash.com/photo-1556881286-fc6915169721?w=500&q=80' },
-      { id: 'm8', name: 'Earl Grey Reserve Tea', category: 'Tea Series', price: 30000, desc: 'Daun teh Earl Grey impor dengan keharuman minyak Bergamot alami.', image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500&q=80' },
+      { id: 'm8', name: 'French Croissant Warm', category: 'Cemilan', price: 25000, desc: 'Roti croissant renyah dengan rasa mentega kaya yang hangat.', image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=500&q=80' },
     ];
 
+    // ATUR KATALOG POIN
     const INITIAL_REWARDS = [
-      { id: 'r1', name: 'Voucher Diskon Rp 15.000', points: 15000, type: 'Voucher Diskon', desc: 'Potongan harga Rp 15.000 saat checkout', discountAmount: 15000 },
-      { id: 'r2', name: 'Gratis 1 Ruang Seduh Latte', points: 350, type: 'Gratis Minuman', desc: 'Voucher potongan Rp 38.000 untuk Latte', discountAmount: 38000 },
-      { id: 'r3', name: 'Gantungan Kunci Tumbler Emas', points: 500, type: 'Merchandise', desc: 'Edisi terbatas Ruang Seduh', discountAmount: 0 },
-      { id: 'r4', name: 'Cashback Rp 50.000 Diskon', points: 450, type: 'Voucher Diskon', desc: 'Potongan langsung Rp 50.000', discountAmount: 50000 },
+      { id: 'r1', name: 'Voucher Diskon Rp 15.000', points: 15, type: 'Voucher Diskon', desc: 'Potongan harga Rp 15.000 saat checkout', discountAmount: 15000 },
+      { id: 'r2', name: 'Gratis 1 Ruang Seduh Latte', points: 35, type: 'Gratis Minuman', desc: 'Voucher potongan Rp 38.000 untuk Latte', discountAmount: 38000 },
+      { id: 'r3', name: 'Gantungan Kunci Tumbler Emas', points: 50, type: 'Merchandise', desc: 'Edisi terbatas Ruang Seduh', discountAmount: 0 },
+      { id: 'r4', name: 'Cashback Rp 50.000 Diskon', points: 45, type: 'Voucher Diskon', desc: 'Potongan langsung Rp 50.000', discountAmount: 50000 },
     ];
 
     const INITIAL_MEMBERS = [
       {
         id: 'u1', name: 'Budi Santoso', phone: '081234567890', email: 'budi.santoso@gmail.com', points: 320, claimedQRs: [],
         myVouchers: [
-          { id: 'v1', name: 'Voucher Diskon Rp 15.000', code: 'RS15K', discountAmount: 15000, type: 'fixed' },
-          { id: 'v2', name: 'Voucher Diskon Member Gold 20%', code: 'GOLD20', discountPercent: 20, type: 'percent' }
+          { id: 'v1', name: 'Voucher Diskon Rp 15.000', code: 'RS15K', discountAmount: 15000, type: 'fixed' }
         ]
       },
       {
@@ -193,14 +161,9 @@
     ];
 
     function App() {
-      // -------------------------------------------------------------
-      // KONFIGURASI BOT TELEGRAM & GOOGLE SHEETS (HARDCODED)
-      // Silakan ganti nilainya sesuai dengan milik Anda di bawah ini
-      // -------------------------------------------------------------
       const TELEGRAM_TOKEN = '8993074889:AAHLq5-NSGZxJkEYE6meNnmUKt-kRPW32CE';
       const TELEGRAM_CHAT_ID = '6085581813';
       const APPS_SCRIPT_URL = 'ISI_URL_WEB_APP_GOOGLE_SHEETS_DI_SINI_JIKA_ADA';
-      // -------------------------------------------------------------
 
       const [activeRole, setActiveRole] = useState('customer');
       const [currentTab, setCurrentTab] = useState('home');
@@ -226,15 +189,8 @@
       const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
       const [pendingCheckout, setPendingCheckout] = useState(false);
 
-      const [promos, setPromos] = useState(() => {
-        const saved = localStorage.getItem('rs_promos');
-        return saved ? JSON.parse(saved) : INITIAL_PROMOS;
-      });
       const [menuItems, setMenuItems] = useState(INITIAL_MENU);
-      const [rewardsList, setRewardsList] = useState(() => {
-        const saved = localStorage.getItem('rs_rewards');
-        return saved ? JSON.parse(saved) : INITIAL_REWARDS;
-      });
+      const [rewardsList] = useState(INITIAL_REWARDS);
       const [cart, setCart] = useState([]);
       const [orders, setOrders] = useState([]);
       const [selectedCategory, setSelectedCategory] = useState('Semua');
@@ -245,10 +201,8 @@
       
       const [isCartOpen, setIsCartOpen] = useState(false);
       const [checkoutStep, setCheckoutStep] = useState('cart'); 
-      const paymentMethod = 'Bayar di Kasir';
       
       const [selectedVoucher, setSelectedVoucher] = useState(null);
-      const [promoInput, setPromoInput] = useState('');
       const [showVoucherSelector, setShowVoucherSelector] = useState(false);
 
       const [activeOrderReceipt, setActiveOrderReceipt] = useState(null);
@@ -257,8 +211,6 @@
       const [notification, setNotification] = useState(null);
 
       const [adminMenuModal, setAdminMenuModal] = useState({ open: false, item: null });
-      const [adminPromoModal, setAdminPromoModal] = useState({ open: false, item: null });
-      const [adminRewardModal, setAdminRewardModal] = useState({ open: false, item: null });
       const [adminMemberModal, setAdminMemberModal] = useState(false);
 
       useEffect(() => {
@@ -277,14 +229,6 @@
       useEffect(() => {
         localStorage.setItem('rs_members_list', JSON.stringify(membersList));
       }, [membersList]);
-
-      useEffect(() => {
-        localStorage.setItem('rs_rewards', JSON.stringify(rewardsList));
-      }, [rewardsList]);
-
-      useEffect(() => {
-        localStorage.setItem('rs_promos', JSON.stringify(promos));
-      }, [promos]);
 
       const handleLogoClick = () => {
         if (activeRole === 'admin') return;
@@ -490,32 +434,6 @@
         }
       };
 
-      const handleApplyPromoCode = () => {
-        if (!promoInput.trim()) {
-          showToast('Masukkan kode promo terlebih dahulu', 'error');
-          return;
-        }
-        const codeUpper = promoInput.trim().toUpperCase();
-        const matchedPromo = promos.find(p => p.code.toUpperCase() === codeUpper);
-
-        if (matchedPromo) {
-          const promoVoucher = {
-            id: `promo_${Date.now()}`,
-            name: matchedPromo.title,
-            code: matchedPromo.code,
-            discountAmount: matchedPromo.discountAmount || 0,
-            discountPercent: matchedPromo.discountPercent || 0,
-            type: matchedPromo.type || (matchedPromo.discountPercent ? 'percent' : 'fixed')
-          };
-          setSelectedVoucher(promoVoucher);
-          setShowVoucherSelector(false);
-          setPromoInput('');
-          showToast(`Voucher "${matchedPromo.title}" berhasil dipasang! 🎉`);
-        } else {
-          showToast('Kode promo tidak ditemukan / tidak valid', 'error');
-        }
-      };
-
       const handleProcessCheckout = async () => {
         if (cart.length === 0) return;
 
@@ -554,7 +472,7 @@
         if (selectedVoucher && selectedVoucher.id) {
           setCurrentUser(prev => ({
             ...prev,
-            myVouchers: prev.myVouchers.filter(v => v.id !== selectedVoucher.id)
+            myVouchers: (prev.myVouchers || []).filter(v => v.id !== selectedVoucher.id)
           }));
         }
 
@@ -628,15 +546,15 @@
           type: 'fixed'
         };
 
-        setCurrentUser(prev => ({ 
-          ...prev, 
-          points: prev.points - reward.points,
-          myVouchers: (reward.type === 'Voucher Diskon' || reward.type === 'Gratis Minuman') 
-            ? [...prev.myVouchers, newVoucher] 
-            : prev.myVouchers
-        }));
+        const currentVouchers = currentUser.myVouchers || [];
+        const updatedUser = {
+          ...currentUser,
+          points: currentUser.points - reward.points,
+          myVouchers: [...currentVouchers, newVoucher]
+        };
 
-        showToast(`Berhasil menukarkan "${reward.name}"! Voucher langsung tersedia di menu checkout.`);
+        setCurrentUser(updatedUser);
+        showToast(`Berhasil menukarkan "${reward.name}"! Voucher tersimpan di profil & checkout.`);
       };
 
       const handleAdminAddMember = (e) => {
@@ -730,66 +648,6 @@
         showToast('Menu berhasil dihapus');
       };
 
-      const handleSavePromoItem = (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const promoType = formData.get('type');
-        const val = Number(formData.get('val'));
-
-        const newPromo = {
-          id: adminPromoModal.item ? adminPromoModal.item.id : `p_${Date.now()}`,
-          title: formData.get('title'),
-          code: formData.get('code').toUpperCase(),
-          desc: formData.get('desc'),
-          type: promoType,
-          discountPercent: promoType === 'percent' ? val : 0,
-          discountAmount: promoType === 'fixed' ? val : 0,
-          image: formData.get('image') || 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=500&q=80'
-        };
-
-        if (adminPromoModal.item) {
-          setPromos(prev => prev.map(p => p.id === newPromo.id ? newPromo : p));
-          showToast('Promo berhasil diperbarui');
-        } else {
-          setPromos(prev => [...prev, newPromo]);
-          showToast('Promo baru berhasil ditambahkan');
-        }
-        setAdminPromoModal({ open: false, item: null });
-      };
-
-      const handleDeletePromoItem = (id) => {
-        setPromos(prev => prev.filter(p => p.id !== id));
-        showToast('Promo berhasil dihapus');
-      };
-
-      // Handler CRUD Reward di Admin
-      const handleSaveRewardItem = (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const newReward = {
-          id: adminRewardModal.item ? adminRewardModal.item.id : `r_${Date.now()}`,
-          name: formData.get('name'),
-          type: formData.get('type'),
-          points: Number(formData.get('points')) || 100,
-          discountAmount: Number(formData.get('discountAmount')) || 0,
-          desc: formData.get('desc')
-        };
-
-        if (adminRewardModal.item) {
-          setRewardsList(prev => prev.map(r => r.id === newReward.id ? newReward : r));
-          showToast('Item reward berhasil diperbarui');
-        } else {
-          setRewardsList(prev => [...prev, newReward]);
-          showToast('Reward baru berhasil ditambahkan');
-        }
-        setAdminRewardModal({ open: false, item: null });
-      };
-
-      const handleDeleteRewardItem = (id) => {
-        setRewardsList(prev => prev.filter(r => r.id !== id));
-        showToast('Reward berhasil dihapus');
-      };
-
       return (
         <div className={`min-h-screen ${darkMode ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-800'} transition-colors duration-200 font-sans pb-28 md:pb-8 relative`}>
           
@@ -871,7 +729,7 @@
                     {[
                       { id: 'home', label: 'Beranda', icon: Coffee },
                       { id: 'menu', label: 'Menu Minuman', icon: ShoppingBag },
-                      { id: 'reward', label: 'Promo & Reward', icon: Gift },
+                      { id: 'reward', label: 'Reward Member', icon: Gift },
                       { id: 'orders', label: 'Pesanan Saya', icon: Clock },
                       { id: 'profile', label: 'Profil Member', icon: User }
                     ].map(tab => {
@@ -969,7 +827,7 @@
                       </button>
                       <button onClick={() => setCurrentTab('reward')} className="p-4 rounded-2xl bg-slate-800 text-white flex flex-col items-center gap-2 shadow hover:bg-slate-700 transition">
                         <Gift className="w-6 h-6 text-amber-400" />
-                        <span className="text-xs font-bold">Promo & Reward</span>
+                        <span className="text-xs font-bold">Poin & Reward</span>
                       </button>
                     </div>
 
@@ -1000,7 +858,7 @@
                 {currentTab === 'menu' && (
                   <div className="space-y-5">
                     <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-                      {['Semua', 'Coffee', 'Non Coffee', 'Fresh Drink', 'Tea Series'].map(cat => (
+                      {['Semua', 'Coffee', 'Non Coffee', 'Fresh Drink', 'Cemilan'].map(cat => (
                         <button
                           key={cat}
                           onClick={() => setSelectedCategory(cat)}
@@ -1042,14 +900,14 @@
                   </div>
                 )}
 
-                {/* HALAMAN GABUNGAN: PROMO & REWARD MEMBER */}
+                {/* HALAMAN POIN & REWARD MEMBER */}
                 {currentTab === 'reward' && (
                   <div className="space-y-6">
                     {/* Banner Poin Member */}
                     <div className="bg-slate-900 text-white p-6 rounded-3xl border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl">
                       <div>
-                        <span className="text-xs text-amber-400 font-bold uppercase tracking-widest">Program Loyalitas & Diskon</span>
-                        <h2 className="text-2xl font-bold mt-1">Promo & Tukar Poin Reward</h2>
+                        <span className="text-xs text-amber-400 font-bold uppercase tracking-widest">Program Loyalitas Member</span>
+                        <h2 className="text-2xl font-bold mt-1">Tukar Poin Reward</h2>
                         <p className="text-xs text-slate-400 mt-1">Dapatkan 1 Poin setiap transaksi Rp 1.000 dengan memindai QR pada struk.</p>
                       </div>
 
@@ -1068,35 +926,7 @@
                       </div>
                     </div>
 
-                   {/* SEKSI 1: PROMO & VOUCHER SPESIAL (DAPAT DIATUR ADMIN) */}
-                    <div>
-                      <h3 className="text-lg font-bold mb-3 flex items-center gap-2">
-                        <Sparkles className="w-5 h-5 text-amber-500" />
-                        Promo & Kode Voucher Aktif
-                      </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {promos.map(promo => (
-                          <div key={promo.id} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between">
-                            <div className="relative h-32">
-                              <img src={promo.image} alt={promo.title} className="w-full h-full object-cover" />
-                              <span className="absolute top-2 left-2 bg-slate-900/80 backdrop-blur-md text-amber-400 font-mono text-[10px] font-bold px-2 py-0.5 rounded">
-                                KODE: {promo.code}
-                              </span>
-                            </div>
-                            <div className="p-3.5 space-y-1">
-                              <h4 className="font-bold text-sm leading-snug">{promo.title}</h4>
-                              <p className="text-xs text-slate-500 line-clamp-2">{promo.desc}</p>
-                              <span className="inline-block text-[11px] font-extrabold text-[#0B8F5A] bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded mt-1">
-                                {promo.type === 'percent' ? `Diskon ${promo.discountPercent}%` : `Potongan Rp ${promo.discountAmount?.toLocaleString('id-ID')}`}
-                              </span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div> 
-
-
-                    {/* SEKSI 2: KATALOG PENUKARAN HADIAH POIN (DAPAT DIATUR ADMIN) */}
+                    {/* KATALOG PENUKARAN HADIAH POIN */}
                     <div>
                       <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
                         <Gift className="w-5 h-5 text-[#0B8F5A]" />
@@ -1203,12 +1033,13 @@
                               <span className="text-2xl font-black text-[#0B8F5A]">{currentUser.points} PTS</span>
                             </div>
                             <div>
-                              <span className="text-xs text-slate-400 block font-semibold">Voucher Aktif</span>
+                              <span className="text-xs text-slate-400 block font-semibold">Voucher Saya</span>
                               <span className="text-2xl font-black text-amber-500">{currentUser.myVouchers ? currentUser.myVouchers.length : 0} Voucher</span>
                             </div>
                           </div>
                         </div>
 
+                        {/* LIST STOK VOUCHER SAYA */}
                         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 space-y-3">
                           <h3 className="font-bold text-sm flex items-center gap-2">
                             <Ticket className="w-4 h-4 text-[#0B8F5A]" />
@@ -1221,7 +1052,7 @@
                               {currentUser.myVouchers.map(v => (
                                 <div key={v.id} className="bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 flex justify-between items-center">
                                   <div>
-                                    <span className="font-bold text-xs block">{v.name}</span>
+                                    <span className="font-bold text-xs block text-slate-800 dark:text-slate-100">{v.name}</span>
                                     <span className="text-[10px] text-slate-400 font-mono">KODE: {v.code}</span>
                                   </div>
                                   <span className="text-xs font-black text-[#0B8F5A]">
@@ -1328,9 +1159,7 @@
                       { id: 'orders', label: 'Pesanan Realtime' },
                       { id: 'database', label: 'Database' },
                       { id: 'members', label: 'Manajemen Member' },
-                      { id: 'menu', label: 'Menu Minuman' },
-                      { id: 'promos', label: 'Manajemen Promo' },
-                      { id: 'rewards', label: 'Manajemen Reward' }
+                      { id: 'menu', label: 'Menu Minuman' }
                     ].map(t => (
                       <button
                         key={t.id}
@@ -1529,7 +1358,7 @@
                 {adminTab === 'menu' && (
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
-                      <h3 className="font-bold text-lg">Kelola Menu Minuman</h3>
+                      <h3 className="font-bold text-lg">Kelola Menu & Cemilan</h3>
                       <button onClick={() => setAdminMenuModal({ open: true, item: null })} className="bg-[#0B8F5A] text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1">
                         <Plus className="w-4 h-4" /> Tambah Menu Baru
                       </button>
@@ -1547,103 +1376,6 @@
                           <div className="flex gap-1">
                             <button onClick={() => setAdminMenuModal({ open: true, item })} className="p-2 text-slate-500 hover:text-amber-500"><Edit className="w-4 h-4" /></button>
                             <button onClick={() => handleDeleteMenuItem(item.id)} className="p-2 text-slate-500 hover:text-rose-500"><Trash2 className="w-4 h-4" /></button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {adminTab === 'promos' && (
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <h3 className="font-bold text-lg">Kelola Promo & Kode Voucher</h3>
-                        <p className="text-xs text-slate-500">Tambah promo baru lengkap dengan gambar yang bisa digunakan saat checkout.</p>
-                      </div>
-                      <button onClick={() => setAdminPromoModal({ open: true, item: null })} className="bg-[#0B8F5A] text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1">
-                        <Plus className="w-4 h-4" /> Tambah Promo Baru
-                      </button>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {promos.map(p => (
-                        <div key={p.id} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between">
-                          <div className="relative h-36">
-                            <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
-                            <span className="absolute top-2 left-2 bg-slate-900/80 backdrop-blur-md text-amber-400 font-mono text-[10px] font-bold px-2 py-1 rounded">
-                              KODE: {p.code}
-                            </span>
-                          </div>
-                          <div className="p-4">
-                            <h4 className="font-bold text-sm">{p.title}</h4>
-                            <p className="text-xs text-slate-500 mt-1 line-clamp-2">{p.desc}</p>
-                            <span className="inline-block mt-2 text-xs font-extrabold text-[#0B8F5A] bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded">
-                              {p.type === 'percent' ? `Diskon ${p.discountPercent}%` : `Potongan Rp ${p.discountAmount?.toLocaleString('id-ID')}`}
-                            </span>
-                          </div>
-
-                          <div className="p-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-2">
-                            <button onClick={() => setAdminPromoModal({ open: true, item: p })} className="p-2 text-slate-500 hover:text-amber-500">
-                              <Edit className="w-4 h-4" />
-                            </button>
-                            <button onClick={() => handleDeletePromoItem(p.id)} className="p-2 text-slate-500 hover:text-rose-500">
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* TAB ADMIN: MANAJEMEN REWARD (DAPAT MENGUBAH REWARD & POIN) */}
-                {adminTab === 'rewards' && (
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <h3 className="font-bold text-lg flex items-center gap-2">
-                          <Gift className="w-5 h-5 text-[#0B8F5A]" />
-                          Kelola Katalog Penukaran Poin Reward
-                        </h3>
-                        <p className="text-xs text-slate-500">Atur jenis hadiah, jumlah poin yang dibutuhkan pelanggan, dan besaran potongan harganya.</p>
-                      </div>
-                      <button onClick={() => setAdminRewardModal({ open: true, item: null })} className="bg-[#0B8F5A] text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1 shadow">
-                        <Plus className="w-4 h-4" /> + Tambah Reward
-                      </button>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {rewardsList.map(r => (
-                        <div key={r.id} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex justify-between items-center shadow-sm">
-                          <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold">
-                              <Gift className="w-6 h-6" />
-                            </div>
-                            <div>
-                              <span className="text-[10px] font-bold uppercase text-slate-400">{r.type}</span>
-                              <h4 className="font-bold text-sm leading-snug">{r.name}</h4>
-                              <p className="text-xs text-slate-500 mt-0.5">{r.desc}</p>
-                              <div className="flex items-center gap-2 mt-1">
-                                <span className="text-xs font-black text-[#0B8F5A] bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded">
-                                  {r.points} Poin
-                                </span>
-                                {r.discountAmount > 0 && (
-                                  <span className="text-xs font-bold text-amber-600 bg-amber-50 dark:bg-amber-950 px-2 py-0.5 rounded">
-                                    Potongan Rp {r.discountAmount.toLocaleString('id-ID')}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="flex gap-1">
-                            <button onClick={() => setAdminRewardModal({ open: true, item: r })} className="p-2 text-slate-500 hover:text-amber-500">
-                              <Edit className="w-4 h-4" />
-                            </button>
-                            <button onClick={() => handleDeleteRewardItem(r.id)} className="p-2 text-slate-500 hover:text-rose-500">
-                              <Trash2 className="w-4 h-4" />
-                            </button>
                           </div>
                         </div>
                       ))}
@@ -1767,37 +1499,43 @@
                     )
                   ) : (
                     <div className="space-y-4">
-                      {/* Pilihan Voucher saat Checkout */}
+                      {/* PILIHAN VOUCHER SAAT CHECKOUT */}
                       <div className="bg-amber-500/10 border border-amber-500/30 p-3 rounded-2xl space-y-2">
                         <div className="flex justify-between items-center text-xs font-bold text-amber-600">
-                          <span>Voucher & Promo</span>
-                          <button onClick={() => setShowVoucherSelector(!showVoucherSelector)} className="text-[#0B8F5A]">Pilih / Masukkan Kode</button>
+                          <span>Voucher Penukaran Poin</span>
+                          <button onClick={() => setShowVoucherSelector(!showVoucherSelector)} className="text-[#0B8F5A]">
+                            {showVoucherSelector ? 'Tutup Pilihan' : 'Pilih Voucher'}
+                          </button>
                         </div>
                         {selectedVoucher ? (
-                          <p className="text-xs font-bold text-slate-800 dark:text-slate-200">{selectedVoucher.name} (-Rp {discountAmount.toLocaleString('id-ID')})</p>
+                          <div className="flex justify-between items-center">
+                            <p className="text-xs font-bold text-slate-800 dark:text-slate-200">{selectedVoucher.name} (-Rp {discountAmount.toLocaleString('id-ID')})</p>
+                            <button onClick={() => setSelectedVoucher(null)} className="text-rose-500 text-[10px] font-bold">Batal</button>
+                          </div>
                         ) : (
                           <p className="text-[11px] text-slate-400">Belum ada voucher dipasang.</p>
                         )}
                         {showVoucherSelector && (
                           <div className="space-y-2 pt-2 border-t border-amber-200 dark:border-amber-800/50">
-                            <div className="flex gap-2">
-                              <input 
-                                type="text"
-                                value={promoInput}
-                                onChange={(e) => setPromoInput(e.target.value)}
-                                placeholder="KODE PROMO (Cth: GOLD20)"
-                                className="flex-1 bg-white dark:bg-slate-800 border p-2 rounded-xl text-xs font-mono uppercase"
-                              />
-                              <button onClick={handleApplyPromoCode} className="bg-slate-900 text-amber-400 font-bold text-xs px-3 rounded-xl">Pakai</button>
-                            </div>
-                            <div className="space-y-1">
-                              {currentUser && currentUser.myVouchers && currentUser.myVouchers.map(v => (
-                                <div key={v.id} onClick={() => { setSelectedVoucher(v); setShowVoucherSelector(false); }} className="p-2 bg-white dark:bg-slate-800 rounded-xl text-xs font-bold cursor-pointer flex justify-between border">
-                                  <span>{v.name}</span>
-                                  <span className="text-[#0B8F5A]">Pilih</span>
-                                </div>
-                              ))}
-                            </div>
+                            {(!currentUser || !currentUser.myVouchers || currentUser.myVouchers.length === 0) ? (
+                              <p className="text-[11px] text-slate-400 italic">Anda belum memiliki voucher. Tukarkan poin Anda terlebih dahulu.</p>
+                            ) : (
+                              <div className="space-y-1 max-h-36 overflow-y-auto">
+                                {currentUser.myVouchers.map(v => (
+                                  <div 
+                                    key={v.id} 
+                                    onClick={() => { setSelectedVoucher(v); setShowVoucherSelector(false); }} 
+                                    className="p-2 bg-white dark:bg-slate-800 rounded-xl text-xs font-bold cursor-pointer flex justify-between items-center border hover:border-[#0B8F5A] transition"
+                                  >
+                                    <div>
+                                      <span className="block text-slate-800 dark:text-slate-200">{v.name}</span>
+                                      <span className="text-[9px] text-slate-400 font-mono">Rp {(v.discountAmount || 0).toLocaleString('id-ID')} OFF</span>
+                                    </div>
+                                    <span className="text-[#0B8F5A] bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded text-[10px]">Gunakan</span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>
@@ -1969,7 +1707,7 @@
             </div>
           )}
 
-          {/* MODAL ADMIN TAMBAH / EDIT MENU MINUMAN */}
+          {/* MODAL ADMIN TAMBAH / EDIT MENU MINUMAN / CEMILAN */}
           {adminMenuModal.open && (
             <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
               <form onSubmit={handleSaveMenuItem} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
@@ -1977,109 +1715,17 @@
                   <h3 className="font-bold text-base">{adminMenuModal.item ? 'Edit Menu' : 'Tambah Menu Baru'}</h3>
                   <button type="button" onClick={() => setAdminMenuModal({ open: false, item: null })} className="text-slate-400"><X className="w-5 h-5" /></button>
                 </div>
-                <input name="name" defaultValue={adminMenuModal.item?.name || ''} placeholder="Nama Minuman" required className="w-full p-2.5 rounded-xl border text-xs dark:bg-slate-800" />
+                <input name="name" defaultValue={adminMenuModal.item?.name || ''} placeholder="Nama Menu / Cemilan" required className="w-full p-2.5 rounded-xl border text-xs dark:bg-slate-800" />
                 <select name="category" defaultValue={adminMenuModal.item?.category || 'Coffee'} className="w-full p-2.5 rounded-xl border text-xs dark:bg-slate-800">
                   <option value="Coffee">Coffee</option>
                   <option value="Non Coffee">Non Coffee</option>
                   <option value="Fresh Drink">Fresh Drink</option>
-                  <option value="Tea Series">Tea Series</option>
+                  <option value="Cemilan">Cemilan</option>
                 </select>
-                <input name="price" type="number" defaultValue={adminMenuModal.item?.price || 30000} placeholder="Harga" required className="w-full p-2.5 rounded-xl border text-xs dark:bg-slate-800" />
+                <input name="price" type="number" defaultValue={adminMenuModal.item?.price || 25000} placeholder="Harga" required className="w-full p-2.5 rounded-xl border text-xs dark:bg-slate-800" />
                 <textarea name="desc" defaultValue={adminMenuModal.item?.desc || ''} placeholder="Deskripsi Singkat" rows={2} className="w-full p-2.5 rounded-xl border text-xs dark:bg-slate-800" />
                 <input name="image" defaultValue={adminMenuModal.item?.image || ''} placeholder="URL Foto Produk" className="w-full p-2.5 rounded-xl border text-xs dark:bg-slate-800" />
                 <button type="submit" className="w-full bg-[#0B8F5A] text-white py-3 rounded-xl font-bold text-xs shadow">Simpan Menu</button>
-              </form>
-            </div>
-          )}
-
-          {/* MODAL ADMIN TAMBAH / EDIT PROMO */}
-          {adminPromoModal.open && (
-            <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
-              <form onSubmit={handleSavePromoItem} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
-                <div className="flex items-center justify-between border-b pb-2">
-                  <h3 className="font-bold text-base">{adminPromoModal.item ? 'Edit Promo' : 'Tambah Promo Baru'}</h3>
-                  <button type="button" onClick={() => setAdminPromoModal({ open: false, item: null })} className="text-slate-400"><X className="w-5 h-5" /></button>
-                </div>
-                
-                <div>
-                  <label className="text-[11px] font-bold block mb-1">Judul Promo</label>
-                  <input name="title" defaultValue={adminPromoModal.item?.title || ''} placeholder="Contoh: Promo Cashback GoPay" required className="w-full p-2.5 rounded-xl border text-xs dark:bg-slate-800" />
-                </div>
-
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <label className="text-[11px] font-bold block mb-1">Kode Promo</label>
-                    <input name="code" defaultValue={adminPromoModal.item?.code || ''} placeholder="GOPAY50" required className="w-full p-2.5 rounded-xl border text-xs font-mono uppercase dark:bg-slate-800" />
-                  </div>
-                  <div>
-                    <label className="text-[11px] font-bold block mb-1">Tipe Diskon</label>
-                    <select name="type" defaultValue={adminPromoModal.item?.type || 'fixed'} className="w-full p-2.5 rounded-xl border text-xs dark:bg-slate-800">
-                      <option value="fixed">Nominal (Rp)</option>
-                      <option value="percent">Persentase (%)</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-[11px] font-bold block mb-1">Nilai Diskon (Nominal Rp atau %)</label>
-                  <input name="val" type="number" defaultValue={adminPromoModal.item?.discountAmount || adminPromoModal.item?.discountPercent || 10000} required className="w-full p-2.5 rounded-xl border text-xs dark:bg-slate-800" />
-                </div>
-
-                <div>
-                  <label className="text-[11px] font-bold block mb-1">Deskripsi Ringkas</label>
-                  <textarea name="desc" defaultValue={adminPromoModal.item?.desc || ''} placeholder="Keterangan syarat & ketentuan..." rows={2} className="w-full p-2.5 rounded-xl border text-xs dark:bg-slate-800" />
-                </div>
-
-                <div>
-                  <label className="text-[11px] font-bold block mb-1">URL Gambar Promo</label>
-                  <input name="image" defaultValue={adminPromoModal.item?.image || ''} placeholder="https://..." className="w-full p-2.5 rounded-xl border text-xs dark:bg-slate-800" />
-                </div>
-
-                <button type="submit" className="w-full bg-[#0B8F5A] text-white py-3 rounded-xl font-bold text-xs shadow">Simpan Promo</button>
-              </form>
-            </div>
-          )}
-
-          {/* MODAL ADMIN TAMBAH / EDIT REWARD */}
-          {adminRewardModal.open && (
-            <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
-              <form onSubmit={handleSaveRewardItem} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
-                <div className="flex items-center justify-between border-b pb-2">
-                  <h3 className="font-bold text-base">{adminRewardModal.item ? 'Edit Reward' : 'Tambah Reward Baru'}</h3>
-                  <button type="button" onClick={() => setAdminRewardModal({ open: false, item: null })} className="text-slate-400"><X className="w-5 h-5" /></button>
-                </div>
-                
-                <div>
-                  <label className="text-[11px] font-bold block mb-1">Nama Hadiah / Reward</label>
-                  <input name="name" defaultValue={adminRewardModal.item?.name || ''} placeholder="Contoh: Voucher Diskon Rp 20.000" required className="w-full p-2.5 rounded-xl border text-xs dark:bg-slate-800" />
-                </div>
-
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <label className="text-[11px] font-bold block mb-1">Jenis Reward</label>
-                    <select name="type" defaultValue={adminRewardModal.item?.type || 'Voucher Diskon'} className="w-full p-2.5 rounded-xl border text-xs dark:bg-slate-800">
-                      <option value="Voucher Diskon">Voucher Diskon</option>
-                      <option value="Gratis Minuman">Gratis Minuman</option>
-                      <option value="Merchandise">Merchandise</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="text-[11px] font-bold block mb-1">Jumlah Poin Dibutuhkan</label>
-                    <input name="points" type="number" defaultValue={adminRewardModal.item?.points || 150} required className="w-full p-2.5 rounded-xl border text-xs dark:bg-slate-800" />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-[11px] font-bold block mb-1">Besar Potongan Diskon (Rp)</label>
-                  <input name="discountAmount" type="number" defaultValue={adminRewardModal.item?.discountAmount || 15000} placeholder="0 jika bukan voucher" className="w-full p-2.5 rounded-xl border text-xs dark:bg-slate-800" />
-                </div>
-
-                <div>
-                  <label className="text-[11px] font-bold block mb-1">Deskripsi Syarat & Ketentuan</label>
-                  <textarea name="desc" defaultValue={adminRewardModal.item?.desc || ''} placeholder="Keterangan syarat penggunaan..." rows={2} className="w-full p-2.5 rounded-xl border text-xs dark:bg-slate-800" />
-                </div>
-
-                <button type="submit" className="w-full bg-[#0B8F5A] text-white py-3 rounded-xl font-bold text-xs shadow">Simpan Reward</button>
               </form>
             </div>
           )}
