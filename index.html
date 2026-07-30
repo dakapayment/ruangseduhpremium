@@ -1069,18 +1069,19 @@
                     </div>
 
                     {/* SEKSI 1: PROMO & VOUCHER SPESIAL (DAPAT DIATUR ADMIN) */}
-                    <div>
-                      <h3 className="text-lg font-bold mb-3 flex items-center gap-2">
-                        <Sparkles className="w-5 h-5 text-amber-500" />
-                        Promo & Kode Voucher Aktif
-                      </h3>
+                {false && (
+  <div>
+    <h3 className="text-lg font-bold mb-3 flex items-center gap-2">
+      <Sparkles className="w-5 h-5 text-amber-500" />
+      Promo & Kode Voucher Aktif
+    </h3>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {promos.map(promo => (
                           <div key={promo.id} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between">
                             <div className="relative h-32">
                               <img src={promo.image} alt={promo.title} className="w-full h-full object-cover" />
                               <span className="absolute top-2 left-2 bg-slate-900/80 backdrop-blur-md text-amber-400 font-mono text-[10px] font-bold px-2 py-0.5 rounded">
-                                KODE: {promo.code1}
+                                KODE: {promo.code}
                               </span>
                             </div>
                             <div className="p-3.5 space-y-1">
